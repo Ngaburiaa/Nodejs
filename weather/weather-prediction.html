@@ -128,6 +128,12 @@
       )
         .then((response) => response.json())
         .then((data) => {
+
+            // const data_list=data.list
+
+
+
+
           const dailyData = {};
 
           data.list.map((entry) => {
@@ -221,7 +227,7 @@
         // dayDiv.remove()
 
         fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt={6}&appid=65a9863172bfcee6fa4daba21848f4c1`
+          `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=65a9863172bfcee6fa4daba21848f4c1`
         )
           .then((response) => response.json())
           .then((data) => {
