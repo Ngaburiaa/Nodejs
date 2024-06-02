@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>weather app</title>
+  </head>
+  <body>
+    <script>
+      const divContainer = document.createElement("div");
+      document.body.style.backgroundImage =
+        "url('https://media.istockphoto.com/id/1128410927/photo/blue-sky-background-and-white-clouds-soft-focus-and-copy-space.webp?b=1&s=170667a&w=0&k=20&c=YL7M8pssMunJkW_R5RqP9kTAP8A37s0Kqgiy1cmrvWU=')";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundSize = "cover";
+      document.body.style.display = "flex";
+      document.body.style.justifyContent = "center";
+      document.body.style.alignItems = "center";
+
+      document.body.appendChild(divContainer);
+      divContainer.style.height = "900px";
+      divContainer.style.width = "900px";
+      divContainer.style.justifyContent = "center";
+      const divSearch = document.createElement("div");
+      divContainer.appendChild(divSearch);
+
+      const inputField = document.createElement("input");
+      divSearch.appendChild(inputField);
+
+      const button = document.createElement("button");
+      divSearch.appendChild(button);
+      button.textContent = "search";
+      button.setAttribute("onclick", "predictWeather()");
+      inputField.setAttribute("placeHolder", "Enter city");
+
+      const divsubContainer = document.createElement("div");
+      divContainer.appendChild(divsubContainer);
+
+      const divdata = document.createElement("div");
+      divsubContainer.appendChild(divdata);
+      divdata.style.boxShadow = " 0px 0px 5px 5px  grey";
+      divdata.style.position = "relative";
+      divdata.style.borderRadius = "10px";
+      divdata.style.width = "1100px";
+      divdata.style.height = "400px";
+     
+
+      const divImage = document.createElement("div");
+      divdata.appendChild(divImage);
+
+      const divDescription = document.createElement("div");
+      divdata.appendChild(divDescription);
+
+      const divPrediction = document.createElement("div");
+      divsubContainer.appendChild(divPrediction);
+      divPrediction.style.display = "flex";
+      divPrediction.style.bottom = "50px";
+      divPrediction.style.position = "absolute";
+
+      const today = document.createElement("p");
+      divDescription.appendChild(today);
+      today.textContent = "Today";
+      today.style.fontSize = "2em";
+      today.style.padding = "none";
+      today.style.fontWeight = "700";
+
+      const name = document.createElement("p");
+      divDescription.appendChild(name);
+
+      const temp = document.createElement("p");
+      divDescription.appendChild(temp);
+
+      today.style.fontSize = "30px";
+      const description = document.createElement("p");
+      divDescription.appendChild(description);
+      const image = document.createElement("img");
+      divImage.appendChild(image);
+      image.style.height = "300px";
+      image.style.width = "300px";
+      image.style.borderRadius = "50%";
+      name.style.fontSize = "3em";
+      name.style.fontWeight = "900";
+      temp.style.fontSize = "1.4em";
+      temp.style.color = "gray";
+      description.style.fontSize = "1.4em";
+      description.style.color = "gray";
+      inputField.style.backgroundColor = "white";
+      inputField.style.borderRadius = "20px";
+      inputField.style.marginRight = "30px";
+      inputField.style.padding = "20px";
+
+      button.style.borderRadius = "10px";
+      button.style.backgroundColor = "black";
+      button.style.color = "white";
+
+      
+      divContainer.style.justifyContent = "center";
+      divsubContainer.style.display = "grid";
+      divsubContainer.style.justifyContent = "center";
+     
+      divSearch.style.display = "grid";
+      divSearch.style.justifyContent = "center";
+      divSearch.style.gridTemplateColumns = "300px 100px";
+      divSearch.style.marginBottom = "20px";
+      divdata.style.display = "flex";
+      divdata.style.justifyContent = "center";
+      divdata.style.alignItems = "center";
+    
+      divImage.style.padding = "40px";
+      divDescription.style.padding = "40px";
+  
+      const fetchedDataa = fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=nyahururu,kenya&APPID=65a9863172bfcee6fa4daba21848f4c1`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          image.src =
+          `http://openweathermap.org/img/wn/${res.weather[0].icon}@4x.png`
+          name.textContent = res.name;
+
+          temp.textContent = `Temperature ${
+            (res.main.temp - 273).toFixed(2) + "°C"
+          }`;
+
+          description.textContent = res.weather[0].description;
+        });
+
+      fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?q=nyahururu&appid=65a9863172bfcee6fa4daba21848f4c1`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const dailyData = {};
+
+          data.list.map((entry) => {
+            const date = new Date(entry.dt * 1000);
+            const day = date.toLocaleDateString("en-US", { weekday: "long" });
+            const dateString = date.toLocaleDateString("en-US");
+
+            if (!dailyData[dateString]) {
+              dailyData[dateString] = {
+                day,
+                temperature: (entry.main.temp - 273).toFixed(2),
+                icon: entry.weather[0].icon,
+              };
+            }
+          });
+
+          const sortedDates = Object.keys(dailyData)
+            .sort((a, b) => new Date(a) - new Date(b))
+            .slice(1, 5);
+
+          sortedDates.map((date, index) => {
+            const data = dailyData[date];
+            let dayDiv = document.getElementById(`day${index + 1}`);
+
+            if (!dayDiv) {
+              dayDiv = document.createElement("div");
+              dayDiv.classList.add("day");
+              dayDiv.id = `day${index + 1}`;
+
+              dayDiv.style.margin = "20px";
+              dayDiv.style.borderRadius = "70px";
+              dayDiv.style.padding = "5px";
+              dayDiv.style.width = "200px";
+              dayDiv.style.height = "200px";
+              dayDiv.style.display = "flex";
+              dayDiv.style.flexDirection = "column";
+              dayDiv.style.justifyContent = "center";
+              dayDiv.style.alignItems = "center";
+              dayDiv.style.backgroundColor = "lightblue";
+             
+              const dayLabel = document.createElement("h3");
+              dayLabel.style.fontSize = "1.5em";
+              dayLabel.style.fontWeight = "700";
+
+              const temperatureLabel = document.createElement("p");
+              temperatureLabel.classList.add("temperature");
+              temperatureLabel.style.fontSize = "1.5em";
+
+              const iconImg = document.createElement("img");
+              iconImg.classList.add("icon");
+              iconImg.style.height = "100px";
+              iconImg.style.width = "100px";
+              iconImg.style.borderRadius = "50%";
+
+              dayDiv.appendChild(dayLabel);
+              dayDiv.appendChild(iconImg);
+              dayDiv.appendChild(temperatureLabel);
+
+              divPrediction.appendChild(dayDiv);
+            }
+
+            dayDiv.querySelector("h3").textContent = data.day;
+            dayDiv.querySelector(
+              ".temperature"
+            ).textContent = `${data.temperature}°C`;
+            dayDiv.querySelector(
+              ".icon"
+            ).src = `http://openweathermap.org/img/wn/${data.icon}.png`;
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching weather data:", error);
+        });
+
+      const predictWeather = async () => {
+        let cityName = inputField.value;
+        const fetchedData = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=65a9863172bfcee6fa4daba21848f4c1`
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            image.src =
+          `http://openweathermap.org/img/wn/${res.weather[0].icon}@4x.png`
+            name.textContent = res.name;
+
+            temp.textContent = `Temperature ${
+              (res.main.temp - 273).toFixed(2) + "°C"
+            }`;
+            description.textContent = res.weather[0].description;
+          });
+        // dayDiv.remove()
+
+        fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt={6}&appid=65a9863172bfcee6fa4daba21848f4c1`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const dailyData = {};
+
+            data.list.map((entry) => {
+              const date = new Date(entry.dt * 1000)
+              date.getHours()
+              const day = date.toLocaleDateString("en-US", { weekday: "long" });
+              const dateString = date.toLocaleDateString("en-US");
+
+              if (!dailyData[dateString]) {
+                dailyData[dateString] = {
+                  day,
+                  temperature: (entry.main.temp - 273).toFixed(2),
+                  icon: entry.weather[0].icon,
+                };
+              }
+            });
+
+            const sortedDates = Object.keys(dailyData)
+              .sort((a, b) => new Date(a) - new Date(b))
+              .slice(1, 5);
+
+            sortedDates.map((date, index) => {
+              const data = dailyData[date];
+              let dayDiv = document.getElementById(`day${index + 1}`);
+
+              if (!dayDiv) {
+                dayDiv = document.createElement("div");
+                dayDiv.id = `day${index + 1}`;
+
+                dayDiv.style.margin = "20px";
+                dayDiv.style.borderRadius = "70px";
+                dayDiv.style.padding = "5px";
+                dayDiv.style.width = "200px";
+                dayDiv.style.height = "200px";
+                dayDiv.style.display = "flex";
+                dayDiv.style.flexDirection = "column";
+                dayDiv.style.justifyContent = "center";
+                dayDiv.style.alignItems = "center";
+                dayDiv.style.backgroundColor = "lightblue";
+
+                const dayLabel = document.createElement("h3");
+                dayLabel.style.fontSize = "1.5em";
+                dayLabel.style.fontWeight = "700";
+
+                const temperatureLabel = document.createElement("p");
+                temperatureLabel.style.fontSize = "1.5em";
+
+                const iconImg = document.createElement("img");
+                iconImg.style.height = "100px";
+                iconImg.style.width = "100px";
+                iconImg.style.borderRadius = "50%";
+
+                dayDiv.appendChild(dayLabel);
+                dayDiv.appendChild(iconImg);
+                dayDiv.appendChild(temperatureLabel);
+
+                divPrediction.appendChild(dayDiv);
+              }
+
+              dayDiv.querySelector("h3").textContent = data.day;
+              dayDiv.querySelector(
+                ".temperature"
+              ).textContent = `${data.temperature}°C`;
+              dayDiv.querySelector(
+                ".icon"
+              ).src = `http://openweathermap.org/img/wn/${data.icon}.png`;
+            });
+          })
+          .catch((error) => {
+            console.error("Error fetching weather data:", error);
+          });
+      };
+    </script>
+  </body>
+</html>
