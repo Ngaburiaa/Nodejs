@@ -117,7 +117,7 @@
           name.textContent = res.name;
 
           temp.textContent = `Temperature ${
-            (res.main.temp - 273).toFixed(2) + "°C"
+            (res.main.temp - 273).toFixed() + "°C"
           }`;
 
           description.textContent = res.weather[0].description;
@@ -129,7 +129,7 @@
         .then((response) => response.json())
         .then((data) => {
 
-            // const data_list=data.list
+           
 
 
 
@@ -144,7 +144,7 @@
             if (!dailyData[dateString]) {
               dailyData[dateString] = {
                 day,
-                temperature: (entry.main.temp - 273).toFixed(2),
+                temperature: (entry.main.temp - 273).toFixed(),
                 icon: entry.weather[0].icon,
               };
             }
@@ -201,7 +201,7 @@
             ).textContent = `${data.temperature}°C`;
             dayDiv.querySelector(
               ".icon"
-            ).src = `http://openweathermap.org/img/wn/${data.icon}.png`;
+            ).src = `http://openweathermap.org/img/wn/${data.icon}@4x.png`;
           });
         })
         .catch((error) => {
@@ -220,7 +220,7 @@
             name.textContent = res.name;
 
             temp.textContent = `Temperature ${
-              (res.main.temp - 273).toFixed(2) + "°C"
+              (res.main.temp - 273).toFixed() + "°C"
             }`;
             description.textContent = res.weather[0].description;
           });
@@ -242,7 +242,7 @@
               if (!dailyData[dateString]) {
                 dailyData[dateString] = {
                   day,
-                  temperature: (entry.main.temp - 273).toFixed(2),
+                  temperature: (entry.main.temp - 273).toFixed(),
                   icon: entry.weather[0].icon,
                 };
               }
