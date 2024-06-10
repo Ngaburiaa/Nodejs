@@ -29,10 +29,14 @@ const postEvent = (req, res) => {
   }
 };
 
+
+
 const getById = (req, res) => {
   const { findIndexOfItem } = req;
     res.send(events_data[findIndexOfItem]);
   };
+
+  
 
 const putEvent = (req, res) => {
     const { findIndexOfItem, body } = req;
