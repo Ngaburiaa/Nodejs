@@ -58,6 +58,4 @@ const deleteEvent = (req, res) =>{
  res.send(`Event ${id} deleted successfully`);
 }
 
-
-
 export const dataController = {getEvents, postEvent, getById, putEvent, deleteEvent}
