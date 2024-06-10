@@ -35,6 +35,7 @@ const findUser = (req, res, next) => {
       error: "Event does not exist",
     });
   }
+  
   req.findIndexOfUser = findIndexOfUser;
 
   next();
