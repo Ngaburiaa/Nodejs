@@ -37,7 +37,6 @@ const getById = (req, res) => {
   };
 
   
-
 const putEvent = (req, res) => {
     const { findIndexOfItem, body } = req;
     events_data[findIndexOfItem] = { id: events_data[findIndexOfItem].id, ...body };
@@ -61,5 +60,7 @@ const deleteEvent = (req, res) =>{
  );
  res.send(`Event ${id} deleted successfully`);
 }
+
+
 
 export const dataController = {getEvents, postEvent, getById, putEvent, deleteEvent}
