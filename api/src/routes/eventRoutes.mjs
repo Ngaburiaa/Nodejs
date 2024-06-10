@@ -1,9 +1,9 @@
 import { Router } from "express";
 import express from "express";
 import { checkSchema } from "express-validator";
-import { dataController } from "../src/datacontroller.mjs";
-import { schema } from "./Schema/schema.mjs";
-import findUser from "../HelperFuction/findUser.mjs";
+import { dataController } from "../controllers/datacontroller.mjs";
+import { schema } from "../schema/schema.mjs";
+import findUser from "../HelperFunctions/finduser.mjs";
 
 const route = Router();
 

@@ -2,7 +2,7 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { matchedData, validationResult } from "express-validator";
-import events_data from "../Database/eventsData.mjs";
+import events_data from "../database/eventsData.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,7 +22,7 @@ const postEvent = (req, res) => {
     };
     events_data.push(postData);
     fs.writeFile(
-      path.join(__dirname, '../Database', "eventsData.json"),
+      path.join(__dirname, '../database', "eventData.json"),
       JSON.stringify(events_data)
     );
     res.status(200).send(postData);
@@ -30,15 +30,15 @@ const postEvent = (req, res) => {
 };
 
 const getById = (req, res) => {
-  const { get_index } = req;
-    res.send(events_data[get_index]);
+  const { findIndexOfItem } = req;
+    res.send(events_data[findIndexOfItem]);
   };
 
 const putEvent = (req, res) => {
-    const { get_index, body } = req;
-    events_data[get_index] = { id: events_data[get_index].id, ...body };
+    const { findIndexOfItem, body } = req;
+    events_data[findIndexOfItem] = { id: events_data[findIndexOfItem].id, ...body };
     fs.writeFile(
-      path.join(__dirname, "../Database", "eventsData.json"),
+      path.join(__dirname, "../database", "eventData.json"),
       JSON.stringify(events_data)
     );
 
@@ -47,12 +47,12 @@ const putEvent = (req, res) => {
 
 const deleteEvent = (req, res) =>{
  const {
-   get_index,
+   findIndexOfItem,
    params: { id },
  } = req;
- events_data.splice(get_index, 1);
+ events_data.splice(findIndexOfItem, 1);
  fs.writeFile(
-   path.join(__dirname, '../Database', "eventsData.json"),
+   path.join(__dirname, '../database', "eventData.json"),
    JSON.stringify(events_data)
  );
  res.send(`Event ${id} deleted successfully`);

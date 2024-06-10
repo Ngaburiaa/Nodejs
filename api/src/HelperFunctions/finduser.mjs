@@ -1,4 +1,4 @@
-import events_data from "../Database/eventsData.mjs";
+import events_data from "../database/eventsData.mjs";
 
 const findUser = (req, res, next) => {
   const {
