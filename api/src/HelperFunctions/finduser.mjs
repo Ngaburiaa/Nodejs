@@ -5,9 +5,7 @@ const findUser = (req, res, next) => {
     params: { id },
   } = req;
   const parsedId = parseInt(id);
-  
-
-  
+    
   if (isNaN(parsedId)) {
     return res.status(400).json({
       error: "Id must be a number!!!",
