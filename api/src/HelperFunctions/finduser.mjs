@@ -1,5 +1,7 @@
 import events_data from "../database/eventsData.mjs";
 
+
+
 const findUser = (req, res, next) => {
   const {
     params: { id },
